@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    color: #424242;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.container{
+    width: 60%;
+    margin: auto;
+}
+
+.search{
+    width: 100%;
+}
+#search{
+    width: 80%;
+}
+
+#submit{
+    width: 19%;
+}

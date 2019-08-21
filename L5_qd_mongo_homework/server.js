@@ -64,37 +64,64 @@ mongoose.connect('mongodb://localhost:27017/quyetde', { useNewUrlParser: true },
       QuestionModel.findById(questionId, (error, data) => {
           if (error) {
             res.status(500).json({
-                sucess: false,
+                success: false,
                 message: error.message
             })
           }else{
-            res.status(200).json({
-                sucess: true,
-                message: data
-            })
+            if (!data) {
+              res.status(404).json({
+                success: false,
+                message: `question not found`
+              })  
+            }else{
+              res.status(200).json({
+                  success: true,
+                  message: data
+              })
+            }
           }
       });
 
     })
+    // app.get('/get-random-question', (req, res) => {
+    //     QuestionModel.find({})
+    //         .then(data => {
+    //             //console.log(data);
+    //             //console.log(data.length);
+    //             const randomI = Math.floor(Math.random() * data.length);
+    //             const randomQuestion = data[randomI];
+    //             //console.log(randomQuestion);
+    //             res.status(201).json({
+    //                 sucess: true,
+    //                 message: randomQuestion
+    //             })
+    //         })
+    //         .catch(err => {
+    //             res.status(500).json({
+    //                 success: false,
+    //                 message: err.message
+    //             })
+    //         })
+
+
+    // })
     app.get('/get-random-question', (req, res) => {
-        QuestionModel.find({})
-            .then(data => {
-                //console.log(data);
-                //console.log(data.length);
-                const randomI = Math.floor(Math.random() * data.length);
-                const randomQuestion = data[randomI];
-                //console.log(randomQuestion);
-                res.status(201).json({
-                    sucess: true,
-                    message: randomQuestion
-                })
-            })
-            .catch(err => {
-                res.status(500).json({
-                    success: false,
-                    message: err.message
-                })
-            })
+      QuestionModel.aggregate([
+        {$sample: {size: 1}}
+      ], (error, data) => {
+        if (error) {
+          res.status(500).json({
+            success: false,
+            message: error.message
+          })
+        }else{
+          const selectedQuestion = data[0];
+          res.status(200).json({
+            success: true,
+            message: selectedQuestion
+          })
+        }
+      })
 
 
     })
@@ -141,7 +168,30 @@ mongoose.connect('mongodb://localhost:27017/quyetde', { useNewUrlParser: true },
 
     })
 
+    app.get('/search', (req, res) => {
+      res.sendFile(path.resolve(__dirname, './public/search.html'));
+    })
 
+
+    app.get('/search-question', (req, res) => {
+      const keyword = req.query.keyword;
+
+      QuestionModel.find({
+        content : {$regex : keyword, $options: 'i'}
+      }, (error, data) => {
+        if (error) {
+          res.status(500).json({
+            success: false,
+            message: error.message
+          })
+        }else{
+          res.status(200).json({
+            success: true,
+            data: data
+          })
+        }
+      })
+    })
     app.listen(3000, (err) => {
       if (err) {
         console.log(err);
