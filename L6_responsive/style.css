@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container{
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.container .main-content{
+    width: 75%;
+}
+
+.container .side-bar{
+    padding: 0 20px;
+}
+
+
+
+
+ul.menu {
+    list-style-type: none;
+    background-color: black;
+    color: white;
+}
+
+@media screen and (max-width: 768px){
+    .container{
+        flex-direction: column;
+        width: 100%;
+    }
+    .container .side-bar{
+        order: 1;
+        width: 100%;
+        position: relative;
+    }
+    .container .main-content{
+        order: 2;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+
+
+    ul.menu{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        left: 0;
+        top: 0;
+        padding: 0 20px;
+        position: fixed;
+    }
+}

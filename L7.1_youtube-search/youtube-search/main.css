@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.img-result{
+    width: 100%;
+}
+
+.result .row{
+    margin-bottom: 20px;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 20px;
+}
+.loader{
+    display: block;
+    margin: auto;
+}
